@@ -30,6 +30,6 @@
             <Font name="Malgun Gothic" size="13.0" />
          </font>
       </Label>
-      <CheckBox fx:id="keepLogin" layoutX="217.0" layoutY="165.0" mnemonicParsing="false" text="Keep Login" />
+      <CheckBox fx:id="keepLoginBox" layoutX="217.0" layoutY="165.0" mnemonicParsing="false" text="Keep Login" />
    </children>
 </AnchorPane>
