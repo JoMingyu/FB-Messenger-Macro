@@ -106,20 +106,26 @@ public class MainController implements Initializable {
 		
 		infoLabel.setText("Waiting");
 		
-		HttpClientConfig config = new HttpClientConfig();
-		config.setTargetAddress("http://127.0.0.1");
-		config.setTargetPort(82);
-		
-		HttpClient client = new HttpClient(config);
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("id", id);
-		params.put("pw", pw);
-		Response response = client.post("/login", null, params);
-		
-		if(response.getResponseCode() == 201) {
-			infoLabel.setText("success");
-		} else {
-			infoLabel.setText("failed");
-		}
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				HttpClientConfig config = new HttpClientConfig();
+				config.setTargetAddress("http://127.0.0.1");
+				config.setTargetPort(82);
+				config.setReadTimeout(30000);
+				
+				HttpClient client = new HttpClient(config);
+				Map<String, Object> params = new HashMap<String, Object>();
+				params.put("id", id);
+				params.put("pw", pw);
+				Response response = client.post("/login", null, params);
+				
+				if(response.getResponseCode() == 201) {
+					infoLabel.setText("success");
+				} else {
+					infoLabel.setText("failed");
+				}
+			}
+		});
 	}
 }

@@ -13,7 +13,8 @@ class Account(Resource):
 
         if session:
             h = hashlib.sha256()
-            session.saveSession(h.update(id))
+            h.update(id.encode('utf-8'))
+            session.saveSession(h.hexdigest())
             return '', 201
         else:
             return '', 204
