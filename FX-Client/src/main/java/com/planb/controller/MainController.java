@@ -22,7 +22,7 @@ public class MainController implements Initializable {
 	private TextField idField;
 	
 	@FXML
-	private Button login;
+	private Button loginButton;
 	
 	@FXML
 	private Label infoLabel;
@@ -32,15 +32,25 @@ public class MainController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+		Platform.runLater(new Runnable () {
+			@Override
+			public void run() {
+				idField.requestFocus();
+			}
+		});
 	}
 	
 	public void keyPressedOnField(KeyEvent key) {
 		if(key.getCode() == KeyCode.ENTER) {
-			// Enter -> Login button event
-			loginButtonOnAction();	
+			if(!keepLoginBox.isFocused() || loginButton.isFocused()) {
+				// Enter in text field -> Login button event
+				loginButtonOnAction();	
+			} else {
+				// Enter in check box -> switch selected
+				keepLoginBox.setSelected(!keepLoginBox.isSelected());
+			}
 		} else if(key.getCode() == KeyCode.TAB) {
-			// Tab -> switch other text field
+			// Tab -> switch other view
 			if(idField.isFocused()) {
 				Platform.runLater(new Runnable () {
 					@Override
@@ -49,6 +59,20 @@ public class MainController implements Initializable {
 					}
 				});
 			} else if(pwField.isFocused()) {
+				Platform.runLater(new Runnable () {
+					@Override
+					public void run() {
+						keepLoginBox.requestFocus();
+					}
+				});
+			} else if(keepLoginBox.isFocused()) {
+				Platform.runLater(new Runnable () {
+					@Override
+					public void run() {
+						loginButton.requestFocus();
+					}
+				});
+			} else if(loginButton.isFocused()) {
 				Platform.runLater(new Runnable () {
 					@Override
 					public void run() {

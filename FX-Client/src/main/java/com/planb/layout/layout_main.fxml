@@ -20,7 +20,7 @@
             <Font name="Malgun Gothic" size="13.0" />
          </font>
       </TextField>
-      <Button fx:id="login" alignment="CENTER" layoutX="220.0" layoutY="244.0" minWidth="80.0" mnemonicParsing="false" onAction="#loginButtonOnAction" text="Login" textFill="#294327">
+      <Button fx:id="loginButton" alignment="CENTER" layoutX="220.0" layoutY="244.0" minWidth="80.0" onKeyPressed="#keyPressedOnField" mnemonicParsing="false" onAction="#loginButtonOnAction" text="Login" textFill="#294327">
          <font>
             <Font name="Malgun Gothic" size="14.0" />
          </font>
@@ -30,6 +30,6 @@
             <Font name="Malgun Gothic" size="13.0" />
          </font>
       </Label>
-      <CheckBox fx:id="keepLoginBox" layoutX="217.0" layoutY="165.0" mnemonicParsing="false" text="Keep Login" />
+      <CheckBox fx:id="keepLoginBox" layoutX="217.0" layoutY="165.0" onKeyPressed="#keyPressedOnField" mnemonicParsing="false" text="Keep Login" />
    </children>
 </AnchorPane>
