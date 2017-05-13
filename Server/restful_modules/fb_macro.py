@@ -18,3 +18,10 @@ class Account(Resource):
             return '', 201
         else:
             return '', 204
+
+    def delete(self):
+        # logout
+        id = request.form['id']
+        h = hashlib.sha256()
+        h.update(id.encode('utf-8'))
+        file = open(h.hexdigest())
