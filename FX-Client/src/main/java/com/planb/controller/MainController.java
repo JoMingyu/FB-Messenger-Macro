@@ -1,7 +1,14 @@
 package com.planb.controller;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
+
+import com.planb.support.networking.HttpClient;
+import com.planb.support.networking.HttpClientConfig;
+import com.planb.support.networking.Response;
+import com.planb.user.UserInfo;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -87,6 +94,7 @@ public class MainController implements Initializable {
 		String id = idField.getText();
 		String pw = pwField.getText();
 		boolean keepLogin = keepLoginBox.isSelected();
+		UserInfo.setKeepLogin(keepLogin);
 		
 		if(id.isEmpty()) {
 			infoLabel.setText("Insert ID");
@@ -97,5 +105,21 @@ public class MainController implements Initializable {
 		}
 		
 		infoLabel.setText("Waiting");
+		
+		HttpClientConfig config = new HttpClientConfig();
+		config.setTargetAddress("http://127.0.0.1");
+		config.setTargetPort(82);
+		
+		HttpClient client = new HttpClient(config);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", id);
+		params.put("pw", pw);
+		Response response = client.post("/login", null, params);
+		
+		if(response.getResponseCode() == 201) {
+			infoLabel.setText("success");
+		} else {
+			infoLabel.setText("failed");
+		}
 	}
 }
