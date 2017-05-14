@@ -1,25 +1,27 @@
 package com.planb.controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 import com.planb.support.networking.HttpClient;
-import com.planb.support.networking.HttpClientConfig;
 import com.planb.support.networking.Response;
-import com.planb.user.UserInfo;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
 
 public class MainController implements Initializable {
 	@FXML
@@ -34,8 +36,12 @@ public class MainController implements Initializable {
 	@FXML
 	private Label infoLabel;
 	
-	@FXML
-	private CheckBox keepLoginBox;
+	private HttpClient client = null;
+	private static Stage primaryStage = null;
+	
+	public static void setPrimaryStage(Stage primaryStage) {
+		MainController.primaryStage = primaryStage;
+	}
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -45,17 +51,20 @@ public class MainController implements Initializable {
 				idField.requestFocus();
 			}
 		});
+		
+		client = new HttpClient();
+		
+		Response response = client.get("/account", null, null);
+		if(response.getResponseCode() == 200) {
+			// If session is already exist
+			changeScene();
+		}
 	}
 	
 	public void keyPressedOnField(KeyEvent key) {
 		if(key.getCode() == KeyCode.ENTER) {
-			if(!keepLoginBox.isFocused() || loginButton.isFocused()) {
-				// Enter in text field -> Login button event
-				loginButtonOnAction();	
-			} else {
-				// Enter in check box -> switch selected
-				keepLoginBox.setSelected(!keepLoginBox.isSelected());
-			}
+			// Enter in text field -> Login button event
+			loginButtonOnAction();	
 		} else if(key.getCode() == KeyCode.TAB) {
 			// Tab -> switch other view
 			if(idField.isFocused()) {
@@ -66,13 +75,6 @@ public class MainController implements Initializable {
 					}
 				});
 			} else if(pwField.isFocused()) {
-				Platform.runLater(new Runnable () {
-					@Override
-					public void run() {
-						keepLoginBox.requestFocus();
-					}
-				});
-			} else if(keepLoginBox.isFocused()) {
 				Platform.runLater(new Runnable () {
 					@Override
 					public void run() {
@@ -93,8 +95,6 @@ public class MainController implements Initializable {
 	public void loginButtonOnAction() {
 		String id = idField.getText();
 		String pw = pwField.getText();
-		boolean keepLogin = keepLoginBox.isSelected();
-		UserInfo.setKeepLogin(keepLogin);
 		
 		if(id.isEmpty()) {
 			infoLabel.setText("Insert ID");
@@ -109,23 +109,33 @@ public class MainController implements Initializable {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				HttpClientConfig config = new HttpClientConfig();
-				config.setTargetAddress("http://127.0.0.1");
-				config.setTargetPort(82);
-				config.setReadTimeout(30000);
-				
-				HttpClient client = new HttpClient(config);
 				Map<String, Object> params = new HashMap<String, Object>();
 				params.put("id", id);
 				params.put("pw", pw);
-				Response response = client.post("/login", null, params);
+				Response response = client.post("/account", null, params);
 				
 				if(response.getResponseCode() == 201) {
-					infoLabel.setText("success");
+					infoLabel.setText("Login Success. Wait for next screen.");
+					try {
+						Thread.sleep(1000);
+						changeScene();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				} else {
 					infoLabel.setText("failed");
 				}
 			}
 		});
+	}
+	
+	public void changeScene() {
+		try {
+			Parent root = FXMLLoader.load(getClass().getResource("/com/planb/layout/Layout_messages.fxml"));
+			Scene scene = new Scene(root);
+			primaryStage.setScene(scene);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
