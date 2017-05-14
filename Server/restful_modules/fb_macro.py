@@ -36,3 +36,32 @@ class Account(Resource):
         h = hashlib.sha256()
         h.update(ip.encode('utf-8'))
         os.remove(h.hexdigest())
+
+class Friend(Resource):
+    def get(self):
+        friend_name = request.args.get('friend_name')
+        ip = request.remote_addr
+        # Get informations from client
+
+        h = hashlib.sha256()
+        h.update(ip.encode('utf-8'))
+        session_file_name = h.hexdigest()
+        session = client.login_by_session(session_file_name)
+        # login by session
+
+        friend_info_list = []
+        friends = session.getUsers(friend_name)
+        for friend in friends:
+            friend_info = session.getUserInfo(friend.uid)
+            friend_object = {
+                'name': friend_info['name'],
+                'gender': friend_info['gender'],
+                'alternate_name': friend_info['alternateName'],
+                'uri': friend_info['uri']
+            }
+            friend_info_list.append(friend_object)
+
+        if len(friend_info_list) == 0:
+            return '', 204
+        else:
+            return friend_info_list, 200
