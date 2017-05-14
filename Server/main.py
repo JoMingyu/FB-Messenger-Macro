@@ -6,6 +6,7 @@ app = Flask(__name__)
 api = Api(app)
 
 api.add_resource(fb_macro.Account, '/account')
+api.add_resource(fb_macro.Friend, '/friend')
 
 if __name__ == '__main__':
     app.run(port=82)

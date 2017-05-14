@@ -5,16 +5,17 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:controller="com.planb.controller.MessengerController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.planb.controller.MessengerController">
    <children>
-      <TextField fx:id="friendField" alignment="CENTER" layoutX="325.0" layoutY="21.0" prefHeight="24.0" prefWidth="150.0" promptText="Insert friend's name" />
-      <TableView fx:id="friendTable" layoutX="35.0" layoutY="66.0" prefHeight="297.0" prefWidth="730.0">
-        <columns>
-          <TableColumn prefWidth="84.0" text="Name" />
-          <TableColumn prefWidth="78.0" text="Gender" />
-            <TableColumn prefWidth="129.0" text="Alternate Name" />
-            <TableColumn prefWidth="438.0" text="Timeline URI" />
-        </columns>
+      <TextField fx:id="friendField" alignment="CENTER" layoutX="525.0" layoutY="22.0" onKeyPressed="#friendNameFieldKeyPressed" prefHeight="24.0" prefWidth="150.0" promptText="Insert friend's name" />
+      <TableView fx:id="friendTable" layoutX="45.0" layoutY="65.0" prefHeight="297.0" prefWidth="1110.0">
+         <columns>
+            <TableColumn prefWidth="104.0" text="Name" />
+            <TableColumn prefWidth="119.0" text="Alternate Name" />
+            <TableColumn prefWidth="73.0" text="Is Friend" />
+            <TableColumn prefWidth="77.0" text="Gender" />
+            <TableColumn prefWidth="736.0" text="Timeline URI" />
+         </columns>
       </TableView>
    </children>
 </AnchorPane>

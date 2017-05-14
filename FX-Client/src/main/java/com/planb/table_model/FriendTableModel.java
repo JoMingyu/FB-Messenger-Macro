@@ -2,14 +2,16 @@ package com.planb.table_model;
 
 public class FriendTableModel {
 	private String name;
-	private String gender;
 	private String alternateName;
+	private String isFriend;
+	private String gender;
 	private String timelineUri;
 	
-	public FriendTableModel(String name, String gender, String alternateName, String timelineUri) {
+	public FriendTableModel(String name, String alternateName, String isFriend, String gender, String timelineUri) {
 		this.setName(name);
-		this.setGender(gender);
 		this.setAlternateName(alternateName);
+		this.setIsFriend(isFriend);
+		this.setGender(gender);
 		this.setTimelineUri(timelineUri);
 	}
 	
@@ -20,18 +22,26 @@ public class FriendTableModel {
 		this.name = name;
 	}
 	
-	public String getGender() {
-		return gender;
-	}
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-	
 	public String getAlternateName() {
 		return alternateName;
 	}
 	public void setAlternateName(String alternateName) {
 		this.alternateName = alternateName;
+	}
+	
+	public String getIsFriend() {
+		return isFriend;
+	}
+
+	public void setIsFriend(String isFriend) {
+		this.isFriend = isFriend;
+	}
+	
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 	
 	public String getTimelineUri() {

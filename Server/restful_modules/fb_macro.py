@@ -37,6 +37,7 @@ class Account(Resource):
         h.update(ip.encode('utf-8'))
         os.remove(h.hexdigest())
 
+
 class Friend(Resource):
     def get(self):
         friend_name = request.args.get('friend_name')
@@ -55,8 +56,10 @@ class Friend(Resource):
             friend_info = session.getUserInfo(friend.uid)
             friend_object = {
                 'name': friend_info['name'],
-                'gender': friend_info['gender'],
                 'alternate_name': friend_info['alternateName'],
+                'is_friend': friend_info['is_friend'],
+                'type': friend_info['type'],
+                'gender': friend_info['gender'],
                 'uri': friend_info['uri']
             }
             friend_info_list.append(friend_object)

@@ -57,7 +57,12 @@ public class MainController implements Initializable {
 		Response response = client.get("/account", null, null);
 		if(response.getResponseCode() == 200) {
 			// If session is already exist
-			changeScene();
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					changeScene();
+				}
+			});
 		}
 	}
 	
