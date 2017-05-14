@@ -55,7 +55,6 @@ public class MessengerController implements Initializable {
 			JSONArray friendInfoArray = new JSONArray(response.getResponseBody());
 			for(int i = 0; i < friendInfoArray.length(); i++) {
 				JSONObject friendInfo = friendInfoArray.getJSONObject(i);
-				System.out.println(friendInfo);
 				String name = friendInfo.getString("name");
 				String alternateName = friendInfo.getString("alternate_name");
 				String isFriend = friendInfo.getBoolean("is_friend") == true ? "True" : "False";
