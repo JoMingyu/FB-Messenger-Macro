@@ -85,9 +85,16 @@ class Message(Resource):
         uid = request.form['uid']
         message = request.form['message']
         send_type = request.form['send_type']
+        has_interval = request.form['has_interval']
         # default data
 
         if send_type == 1:
-            # Brute force
+            # Infinite
+            time_limit = request.form['time_limit']
             while True:
+                session.send(uid, message)
+        elif send_type == 2:
+            # Limited
+            send_count = request.form['send_count']
+            for i in range(send_count):
                 session.send(uid, message)

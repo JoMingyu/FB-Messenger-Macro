@@ -17,10 +17,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -42,13 +44,40 @@ public class MessengerController implements Initializable {
 	@FXML
 	private ToggleGroup radioGroup;
 	
+	@FXML
+	private TextArea messageArea;
+	
+	@FXML
+	private CheckBox timeIntervalBox;
+
+	@FXML
+	private TextField timeLimitField;
+	
+	@FXML
+	private TextField sendCountField;
+	
+	@FXML
+	private TextField intervalField;
+	
+	@FXML
+	private Label intervalLabel;
+	
+	
 	private ObservableList<FriendTableModel> friendInfoList = FXCollections.observableArrayList();
 	private HttpClient client = null;
 	private long friendUid = 0;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		client = new HttpClient();
+		this.client = new HttpClient();
+	}
+
+	public void friendNameFieldKeyPressed(KeyEvent event) {
+		if(event.getCode() == KeyCode.ENTER) {
+			// Enter in text field -> Login button event
+			String friendName = friendField.getText();
+			setTableData(friendName);
+		}
 	}
 	
 	public void friendInfoTableMouseClicked(MouseEvent event) {
@@ -59,12 +88,61 @@ public class MessengerController implements Initializable {
 		}
 	}
 	
-	public void friendNameFieldKeyPressed(KeyEvent event) {
-		if(event.getCode() == KeyCode.ENTER) {
-			// Enter in text field -> Login button event
-			String friendName = friendField.getText();
-			setTableData(friendName);
+	public void infiniteRepititionRadioOnAction(ActionEvent event) {
+		timeLimitField.setDisable(false);
+		sendCountField.setDisable(true);
+		sendCountField.setText(null);
+		sendCountField.setPromptText("Num of Messages");
+	}
+	
+	public void limitedRepititionRadioOnAction(ActionEvent event) {
+		sendCountField.setDisable(false);
+		timeLimitField.setDisable(true);
+		timeLimitField.setText(null);
+		timeLimitField.setPromptText("Time(seconds) of Send");
+	}
+	
+	public void timeIntervalBoxOnAction(ActionEvent event) {
+		if(timeIntervalBox.isSelected()) {
+			intervalField.setDisable(false);
+			intervalLabel.setDisable(false);
+		} else {
+			intervalField.setText(null);
+			intervalField.setPromptText("Interval");
+			intervalField.setDisable(true);
+			intervalLabel.setDisable(true);
 		}
+	}
+	
+	public void sendButtonOnAction(ActionEvent event) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		
+		RadioButton checked = (RadioButton) radioGroup.getSelectedToggle();
+		String checkedStr = checked.getText();
+		// Checked radio button's text
+		
+		params.put("uid", this.friendUid);
+		params.put("message", messageArea.getText());
+		
+		boolean hasInterval = timeIntervalBox.isSelected();
+		params.put("has_interval", hasInterval);
+		if(hasInterval) {
+			params.put("interval", intervalField.getText());
+		}
+		
+		if(checkedStr.equals("Infinite Repitition")) {
+			params.put("send_type", 1);
+			params.put("time_limit", sendCountField.getText());
+		} else {
+			params.put("send_type", 2);
+			params.put("send_count", sendCountField.getText());
+		}
+		
+		for(String key : params.keySet()) {
+			System.out.println(key + " : " + params.get(key));
+		}
+		
+		client.post("/message", null, params);
 	}
 	
 	private void setTableData(String friendName) {
@@ -76,6 +154,7 @@ public class MessengerController implements Initializable {
 			JSONArray friendInfoArray = new JSONArray(response.getResponseBody());
 			for(int i = 0; i < friendInfoArray.length(); i++) {
 				JSONObject friendInfo = friendInfoArray.getJSONObject(i);
+				
 				long uid = friendInfo.getLong("uid");
 				String name = friendInfo.getString("name");
 				String alternateName = friendInfo.getString("alternate_name");
@@ -104,10 +183,5 @@ public class MessengerController implements Initializable {
 		timelineUriCol.setCellValueFactory(new PropertyValueFactory("timelineUri"));
 		
 		friendTable.setItems(friendInfoList);
-	}
-	
-	public void sendButtonOnAction(ActionEvent event) {
-		RadioButton checked = (RadioButton) radioGroup.getSelectedToggle();
-		String checkedStr = checked.getText();
 	}
 }

@@ -29,20 +29,22 @@
             <Font name="Malgun Gothic" size="13.3" />
          </font>
       </Label>
-      <RadioButton layoutX="425.0" layoutY="535.0" mnemonicParsing="false" text="Infinite Repitition">
+      <RadioButton layoutX="425.0" layoutY="535.0" mnemonicParsing="false" onAction="#infiniteRepititionRadioOnAction" text="Infinite Repitition">
          <toggleGroup>
             <ToggleGroup fx:id="radioGroup" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton layoutX="645.0" layoutY="535.0" mnemonicParsing="false" text="Limitied Repition" toggleGroup="$radioGroup" />
-      <TextArea layoutX="360.0" layoutY="418.0" prefHeight="106.0" prefWidth="482.0" promptText="Insert Message" />
-      <Button layoutX="576.0" layoutY="633.0" mnemonicParsing="false" onAction="#sendButtonOnAction" text="Send">
+      <RadioButton layoutX="641.0" layoutY="535.0" mnemonicParsing="false" onAction="#limitedRepititionRadioOnAction" text="Limited Repitition" toggleGroup="$radioGroup" />
+      <TextArea fx:id="messageArea" layoutX="360.0" layoutY="418.0" prefHeight="106.0" prefWidth="482.0" promptText="Insert Message" />
+      <Button layoutX="576.0" layoutY="661.0" mnemonicParsing="false" onAction="#sendButtonOnAction" text="Send">
          <font>
             <Font name="Malgun Gothic" size="13.0" />
          </font>
       </Button>
-      <CheckBox layoutX="552.0" layoutY="567.0" mnemonicParsing="false" text="Time Interval" />
-      <TextField alignment="CENTER" disable="true" layoutX="503.0" layoutY="597.0" prefHeight="23.0" prefWidth="59.0" promptText="Interval" />
-      <Label disable="true" layoutX="566.0" layoutY="603.0" text="Second(s) per message" />
+      <CheckBox fx:id="timeIntervalBox" layoutX="552.0" layoutY="595.0" mnemonicParsing="false" onAction="#timeIntervalBoxOnAction" text="Time Interval" />
+      <TextField fx:id="intervalField" alignment="CENTER" disable="true" layoutX="503.0" layoutY="625.0" prefHeight="23.0" prefWidth="59.0" promptText="Interval" />
+      <Label fx:id="intervalLabel" disable="true" layoutX="566.0" layoutY="631.0" text="Second(s) per message" />
+      <TextField fx:id="sendCountField" alignment="CENTER" disable="true" layoutX="630.0" layoutY="557.0" onKeyPressed="#friendNameFieldKeyPressed" prefHeight="24.0" prefWidth="150.0" promptText="Num of Messages" />
+      <TextField fx:id="timeLimitField" alignment="CENTER" disable="true" layoutX="411.0" layoutY="557.0" onKeyPressed="#friendNameFieldKeyPressed" prefHeight="24.0" prefWidth="150.0" promptText="Time(seconds) of Send" />
    </children>
 </AnchorPane>
