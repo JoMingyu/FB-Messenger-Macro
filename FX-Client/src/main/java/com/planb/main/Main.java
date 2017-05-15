@@ -18,7 +18,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		MainController.setPrimaryStage(primaryStage);
 		
-		config.setTargetAddress("http://127.0.0.1");
+		config.setTargetAddress("http://52.79.134.200");
 		config.setTargetPort(82);
 		config.setReadTimeout(30000);
 		
