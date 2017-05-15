@@ -85,27 +85,31 @@ class Message(Resource):
 
         uid = request.form['uid']
         message = request.form['message']
-        send_type = request.form['send_type']
-        interval = int(request.form['interval'])
+        send_type = int(request.form['send_type'])
+        interval = float(request.form['interval'])
+        if interval < 0.28:
+            interval = 0
+        else:
+            interval -= 0.27
         # default data
 
-        if send_type == '1':
+        if send_type == 1:
             # Infinite
             time_limit = int(request.form['time_limit'])
             start = time.time()
             while True:
                 session.send(uid, message)
-                time.sleep(float(interval))
+                time.sleep(interval)
                 if time.time() - start > time_limit:
                     break
 
         elif send_type == 2:
             # Limited
-            send_count = request.form['send_count']
+            send_count = int(request.form['send_count'])
             count = 0
             for i in range(send_count):
                 session.send(uid, message)
                 count += 1
                 if count == send_count:
                     break
-                time.sleep(float(interval))
+                time.sleep(interval)
