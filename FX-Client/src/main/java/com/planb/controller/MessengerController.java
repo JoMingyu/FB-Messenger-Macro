@@ -141,6 +141,8 @@ public class MessengerController implements Initializable {
 	}
 	
 	private void setTableData(String friendName) {
+		friendInfoList.clear();
+		
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("friend_name", friendName);
 		Response response = client.get("/friend", null, params);
