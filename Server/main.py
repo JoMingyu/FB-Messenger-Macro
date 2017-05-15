@@ -11,4 +11,3 @@ api.add_resource(fb_macro.Friend, '/friend')
 if __name__ == '__main__':
     app.run(port=82)
     # app.run(host='172.31.12.119', port=82)
-

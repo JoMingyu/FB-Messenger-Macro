@@ -55,6 +55,7 @@ class Friend(Resource):
         for friend in friends:
             friend_info = session.getUserInfo(friend.uid)
             friend_object = {
+                'uid': friend.uid,
                 'name': friend_info['name'],
                 'alternate_name': friend_info['alternateName'],
                 'is_friend': friend_info['is_friend'],
@@ -68,3 +69,25 @@ class Friend(Resource):
             return '', 204
         else:
             return friend_info_list, 200
+
+
+class Message(Resource):
+    def post(self):
+        ip = request.remote_addr
+        # Get ip from client
+
+        h = hashlib.sha256()
+        h.update(ip.encode('utf-8'))
+        session_file_name = h.hexdigest()
+        session = client.login_by_session(session_file_name)
+        # login by session
+
+        uid = request.form['uid']
+        message = request.form['message']
+        send_type = request.form['send_type']
+        # default data
+
+        if send_type == 1:
+            # Brute force
+            while True:
+                session.send(uid, message)

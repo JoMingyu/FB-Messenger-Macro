@@ -16,12 +16,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 
 public class MessengerController implements Initializable {
 	@FXML
@@ -30,16 +33,28 @@ public class MessengerController implements Initializable {
 	@FXML
 	private TableView<FriendTableModel> friendTable;
 	
+	@FXML
+	private Label selectedInfoLabel;
+	
 	private ObservableList<FriendTableModel> friendInfoList = FXCollections.observableArrayList();
 	private HttpClient client = null;
+	private long friendUid = 0;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		client = new HttpClient();
 	}
 	
-	public void friendNameFieldKeyPressed(KeyEvent key) {
-		if(key.getCode() == KeyCode.ENTER) {
+	public void friendInfoTableMouseClicked(MouseEvent event) {
+		if(event.getButton() == MouseButton.PRIMARY) {
+			FriendTableModel friend = friendTable.getSelectionModel().getSelectedItem();
+			this.friendUid = friend.getUid();
+			selectedInfoLabel.setText("SELECTED : " + Long.toString(this.friendUid));
+		}
+	}
+	
+	public void friendNameFieldKeyPressed(KeyEvent event) {
+		if(event.getCode() == KeyCode.ENTER) {
 			// Enter in text field -> Login button event
 			String friendName = friendField.getText();
 			setTableData(friendName);
@@ -55,15 +70,16 @@ public class MessengerController implements Initializable {
 			JSONArray friendInfoArray = new JSONArray(response.getResponseBody());
 			for(int i = 0; i < friendInfoArray.length(); i++) {
 				JSONObject friendInfo = friendInfoArray.getJSONObject(i);
+				long uid = friendInfo.getLong("uid");
 				String name = friendInfo.getString("name");
 				String alternateName = friendInfo.getString("alternate_name");
 				String isFriend = friendInfo.getBoolean("is_friend") == true ? "True" : "False";
 				String gender = friendInfo.getInt("gender") == 1 ? "Female" : "Male";
 				String timelineUri = friendInfo.getString("uri");
-				friendInfoList.add(new FriendTableModel(name, alternateName, isFriend, gender, timelineUri));
+				friendInfoList.add(new FriendTableModel(uid, name, alternateName, isFriend, gender, timelineUri));
 			}
 		} else {
-			friendInfoList.add(new FriendTableModel("데이터 없음", "데이터 없음", "데이터 없음", "데이터 없음", "데이터 없음"));
+			friendInfoList.add(new FriendTableModel(0, "데이터 없음", "데이터 없음", "데이터 없음", "데이터 없음", "데이터 없음"));
 		}
 		
 		TableColumn<?, ?> nameCol = friendTable.getColumns().get(0);

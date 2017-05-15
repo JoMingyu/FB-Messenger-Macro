@@ -1,18 +1,28 @@
 package com.planb.table_model;
 
 public class FriendTableModel {
+	private long uid;
 	private String name;
 	private String alternateName;
 	private String isFriend;
 	private String gender;
 	private String timelineUri;
 	
-	public FriendTableModel(String name, String alternateName, String isFriend, String gender, String timelineUri) {
+	public FriendTableModel(long uid, String name, String alternateName, String isFriend, String gender, String timelineUri) {
+		this.setUid(uid);
 		this.setName(name);
 		this.setAlternateName(alternateName);
 		this.setIsFriend(isFriend);
 		this.setGender(gender);
 		this.setTimelineUri(timelineUri);
+	}
+	
+	public long getUid() {
+		return uid;
+	}
+
+	public void setUid(long uid) {
+		this.uid = uid;
 	}
 	
 	public String getName() {

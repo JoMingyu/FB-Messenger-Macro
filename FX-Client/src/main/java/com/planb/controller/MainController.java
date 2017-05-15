@@ -66,11 +66,11 @@ public class MainController implements Initializable {
 		}
 	}
 	
-	public void keyPressedOnField(KeyEvent key) {
-		if(key.getCode() == KeyCode.ENTER) {
+	public void keyPressedOnField(KeyEvent event) {
+		if(event.getCode() == KeyCode.ENTER) {
 			// Enter in text field -> Login button event
 			loginButtonOnAction();	
-		} else if(key.getCode() == KeyCode.TAB) {
+		} else if(event.getCode() == KeyCode.TAB) {
 			// Tab -> switch other view
 			if(idField.isFocused()) {
 				Platform.runLater(new Runnable () {
