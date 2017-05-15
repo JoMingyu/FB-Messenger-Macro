@@ -7,6 +7,7 @@ api = Api(app)
 
 api.add_resource(fb_macro.Account, '/account')
 api.add_resource(fb_macro.Friend, '/friend')
+api.add_resource(fb_macro.Message, '/message')
 
 if __name__ == '__main__':
     app.run(port=82)

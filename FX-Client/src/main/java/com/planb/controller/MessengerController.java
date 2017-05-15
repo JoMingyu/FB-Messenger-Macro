@@ -125,21 +125,18 @@ public class MessengerController implements Initializable {
 		params.put("message", messageArea.getText());
 		
 		boolean hasInterval = timeIntervalBox.isSelected();
-		params.put("has_interval", hasInterval);
 		if(hasInterval) {
 			params.put("interval", intervalField.getText());
+		} else {
+			params.put("interval", 0);
 		}
 		
 		if(checkedStr.equals("Infinite Repitition")) {
 			params.put("send_type", 1);
-			params.put("time_limit", sendCountField.getText());
+			params.put("time_limit", timeLimitField.getText());
 		} else {
 			params.put("send_type", 2);
 			params.put("send_count", sendCountField.getText());
-		}
-		
-		for(String key : params.keySet()) {
-			System.out.println(key + " : " + params.get(key));
 		}
 		
 		client.post("/message", null, params);

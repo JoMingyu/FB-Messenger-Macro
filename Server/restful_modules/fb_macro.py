@@ -3,6 +3,7 @@ from flask_restful import Resource
 from fb import client
 import hashlib
 import os
+import time
 
 
 class Account(Resource):
@@ -85,14 +86,19 @@ class Message(Resource):
         uid = request.form['uid']
         message = request.form['message']
         send_type = request.form['send_type']
-        has_interval = request.form['has_interval']
+        interval = int(request.form['interval'])
         # default data
 
-        if send_type == 1:
+        if send_type == '1':
             # Infinite
-            time_limit = request.form['time_limit']
+            time_limit = int(request.form['time_limit'])
+            start = time.time()
             while True:
                 session.send(uid, message)
+                time.sleep(interval)
+                if time.time() - start > time_limit:
+                    break
+
         elif send_type == 2:
             # Limited
             send_count = request.form['send_count']
