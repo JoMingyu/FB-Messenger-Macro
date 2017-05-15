@@ -14,12 +14,15 @@ import com.planb.table_model.FriendTableModel;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -35,6 +38,9 @@ public class MessengerController implements Initializable {
 	
 	@FXML
 	private Label selectedInfoLabel;
+	
+	@FXML
+	private ToggleGroup radioGroup;
 	
 	private ObservableList<FriendTableModel> friendInfoList = FXCollections.observableArrayList();
 	private HttpClient client = null;
@@ -98,5 +104,10 @@ public class MessengerController implements Initializable {
 		timelineUriCol.setCellValueFactory(new PropertyValueFactory("timelineUri"));
 		
 		friendTable.setItems(friendInfoList);
+	}
+	
+	public void sendButtonOnAction(ActionEvent event) {
+		RadioButton checked = (RadioButton) radioGroup.getSelectedToggle();
+		String checkedStr = checked.getText();
 	}
 }
