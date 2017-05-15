@@ -17,7 +17,7 @@ class Account(Resource):
             h = hashlib.sha256()
             ip = request.remote_addr
             h.update(ip.encode('utf-8'))
-            session.saveSession(h.hexdigest())
+            session.saveSession('sessions/' + h.hexdigest())
             return '', 201
         else:
             return '', 204
@@ -26,7 +26,7 @@ class Account(Resource):
         ip = request.remote_addr
         h = hashlib.sha256()
         h.update(ip.encode('utf-8'))
-        if os.path.isfile(h.hexdigest()):
+        if os.path.isfile('sessions/' + h.hexdigest()):
             return '', 200
         else:
             return '', 204

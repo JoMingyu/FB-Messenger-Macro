@@ -24,7 +24,7 @@
             <Font name="Malgun Gothic" size="14.0" />
          </font>
       </Button>
-      <Label fx:id="infoLabel" alignment="CENTER" layoutX="160.0" layoutY="214.0" prefHeight="18.0" prefWidth="200.0" textAlignment="CENTER" textFill="#ae3d3d">
+      <Label fx:id="infoLabel" alignment="CENTER" layoutX="160.0" layoutY="200.0" prefHeight="18.0" prefWidth="200.0" textAlignment="CENTER" textFill="#ae3d3d">
          <font>
             <Font name="Malgun Gothic" size="13.0" />
          </font>

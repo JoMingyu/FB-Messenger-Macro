@@ -42,13 +42,13 @@ public class MessengerController implements Initializable {
 	private Label selectedInfoLabel;
 	
 	@FXML
-	private ToggleGroup radioGroup;
-	
-	@FXML
 	private TextArea messageArea;
 	
 	@FXML
 	private CheckBox timeIntervalBox;
+	
+	@FXML
+	private ToggleGroup radioGroup;
 
 	@FXML
 	private TextField timeLimitField;
@@ -61,7 +61,6 @@ public class MessengerController implements Initializable {
 	
 	@FXML
 	private Label intervalLabel;
-	
 	
 	private ObservableList<FriendTableModel> friendInfoList = FXCollections.observableArrayList();
 	private HttpClient client = null;
@@ -124,8 +123,7 @@ public class MessengerController implements Initializable {
 		params.put("uid", this.friendUid);
 		params.put("message", messageArea.getText());
 		
-		boolean hasInterval = timeIntervalBox.isSelected();
-		if(hasInterval) {
+		if(timeIntervalBox.isSelected()) {
 			params.put("interval", intervalField.getText());
 		} else {
 			params.put("interval", 0);
