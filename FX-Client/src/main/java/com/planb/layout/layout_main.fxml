@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.planb.controller.MainController">
+   <children>
+      <PasswordField fx:id="pwField" alignment="CENTER" layoutX="135.0" layoutY="116.0" onKeyPressed="#keyPressedOnField" prefHeight="24.0" prefWidth="250.0" promptText="Insert Password">
+         <font>
+            <Font name="Malgun Gothic" size="13.0" />
+         </font>
+      </PasswordField>
+      <TextField fx:id="idField" alignment="CENTER" layoutX="135.0" layoutY="77.0" onKeyPressed="#keyPressedOnField" prefHeight="24.0" prefWidth="250.0" promptText="Insert ID">
+         <font>
+            <Font name="Malgun Gothic" size="13.0" />
+         </font>
+      </TextField>
+      <Button fx:id="loginButton" alignment="CENTER" layoutX="220.0" layoutY="226.0" minWidth="80.0" mnemonicParsing="false" onAction="#loginButtonOnAction" onKeyPressed="#keyPressedOnField" text="Login" textFill="#294327">
+         <font>
+            <Font name="Malgun Gothic" size="14.0" />
+         </font>
+      </Button>
+      <Label fx:id="infoLabel" alignment="CENTER" layoutX="160.0" layoutY="200.0" prefHeight="18.0" prefWidth="200.0" textAlignment="CENTER" textFill="#ae3d3d">
+         <font>
+            <Font name="Malgun Gothic" size="13.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
