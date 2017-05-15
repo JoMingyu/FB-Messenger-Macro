@@ -95,12 +95,17 @@ class Message(Resource):
             start = time.time()
             while True:
                 session.send(uid, message)
-                time.sleep(interval)
+                time.sleep(float(interval))
                 if time.time() - start > time_limit:
                     break
 
         elif send_type == 2:
             # Limited
             send_count = request.form['send_count']
+            count = 0
             for i in range(send_count):
                 session.send(uid, message)
+                count += 1
+                if count == send_count:
+                    break
+                time.sleep(float(interval))
